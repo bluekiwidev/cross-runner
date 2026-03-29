@@ -1,10 +1,20 @@
-controller.up.onEvent(ControllerButtonEvent.Repeated, function () {
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Sprite2.isHittingTile(CollisionDirection.Bottom)) {
         Sprite2.vy = -150
     }
 })
-let Coke: Sprite = null
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
+    sprites.destroy(Coke, effects.trail, 100)
+    if (info.score() <= 42) {
+        game.gameOver(true)
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    game.gameOver(false)
+})
 let Pepsi: Sprite = null
+let Coke: Sprite = null
 let Sprite2: Sprite = null
 Sprite2 = sprites.create(img`
     ....................e2e22e2e....................
